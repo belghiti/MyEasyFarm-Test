@@ -1,10 +1,13 @@
+import { useDispatch } from 'react-redux'
 import { MapContainer, Polygon, Popup, TileLayer } from "react-leaflet";
 import fields from "../data/partfield.json"
 import soilmap from "../data/soilmap.json"
 
 
-const Field = ({setIsOpen, setSelectedFeature}: any) => {
+const Field = () => {
   const center:[number, number] = [fields.items[0].center[1], fields.items[0].center[0]]   
+
+  const dispatch = useDispatch()
  
   return (
     <MapContainer style={{width: '100%', height: '100vh'}} center={center} zoom={15} scrollWheelZoom={false}>
@@ -29,12 +32,14 @@ const Field = ({setIsOpen, setSelectedFeature}: any) => {
                             style={{cursor: 'pointer', background: 'none', padding: '5px 10px', border: 'none'}} 
                             key={index}
                             onClick={() => {
-                              setSelectedFeature({
-                                geometry: feature.geometry.coordinates[0][0].map(c => [c[1], c[0]]) as [number, number][],
-                                color: feature.properties.color,
-                                center
+                              dispatch({
+                                type: 'SET-SELECTED-FEATURE',
+                                payload: {
+                                  geometry: feature.geometry.coordinates[0][0].map(c => [c[1], c[0]]) as [number, number][],
+                                  color: feature.properties.color,
+                                  center
+                                }
                               })
-                              setIsOpen(true)
                             }}
                           >
                             #feature {index + 1}

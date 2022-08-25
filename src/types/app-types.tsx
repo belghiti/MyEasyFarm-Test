@@ -5,7 +5,10 @@ export type Feature = {
 }
 
 export type PreviewProps = {
-  feature: Feature
   isOpen: boolean
-  setIsOpen: any
+}
+
+export type MapState = {
+  previewOpen: boolean
+  feature: Feature | null
 }
