@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import { Feature } from './types/app-types'
+import Field from './components/field'
+import Preview from './components/preview'
+import { StartButton } from './components/styled/StartButton'
+import { WelcomePageContainer } from './components/styled/WelcomePageContainer'
+import { MapsContainer } from './components/styled/MapsContainer'
+import { Logo } from './components/styled/logo'
+import imgLogo from './images/logo.png'
 
-function App() {
+
+const App = () => {
+  const [start, setStart] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedFeature, setSelectedFeature] = useState<Feature>({} as Feature)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    !start ? 
+      <WelcomePageContainer>
+        <StartButton onClick={() => setStart(true)}>Start</StartButton>
+      </WelcomePageContainer> :
+      <MapsContainer>
+        <Logo src={imgLogo} alt="MyEasyFarm logo"/>
+        <Preview feature={selectedFeature} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Field setIsOpen={setIsOpen} setSelectedFeature={setSelectedFeature} />
+      </MapsContainer>
+  )
 }
 
-export default App;
+export default App
